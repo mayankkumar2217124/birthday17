@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Love Story 💖</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .background-iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .card {
+      position: absolute;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background: #ff4081;
+      color: white;
+      font-size: 1.2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+    }
+
+    .message-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 85%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      transform: translate(-50%, -50%);
+      z-index: 999;
+      display: none;
+      text-align: justify;
+    }
+
+    .message-box h2 {
+      margin-top: 0;
+      color: #e91e63;
+    }
+
+    .message-box p {
+      color: #333;
+      font-size: 1rem;
+      white-space: pre-line;
+    }
+
+    .close-btn {
+      margin-top: 15px;
+      background: #e91e63;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .text-box {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .text-box h1 {
+      font-size: 2rem;
+      margin: 0;
+      color: #ffffff;
+      font-family: 'Brush Script MT', cursive;
+      text-shadow: 1px 1px 5px #000;
+    }
+
+    .text-box p {
+      font-size: 1.1rem;
+      margin-top: 5px;
+      color: #f1f1f1;
+      text-shadow: 1px 1px 5px #000;
+    }
+
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: url('https://img.icons8.com/emoji/48/heart-suit.png');
+      background-size: cover;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* Right Side Flip Frame */
+    .image-container {
+      position: absolute;
+      top: 130px;
+      right: 100px;
+      width: 240px;
+      height: 320px;
+      perspective: 1000px;
+      z-index: 2;
+    }
+
+    .flip-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .flip-card img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .flip-card img.back {
+      transform: rotateY(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .image-container {
+        right: 20px;
+        width: 180px;
+        height: 240px;
+      }
+
+      .card {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+
+      .text-box h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background -->
+<iframe class="background-iframe"
+  src="https://skybox.blockadelabs.com/e/3532872f0f9d0628f5907901783c00c0"
+  allow="fullscreen">
+</iframe>
+
+<!-- Message Cards -->
+<div class="card" style="top: 60px;" onclick="showMessage(1)">1</div>
+<div class="card" style="top: 140px;" onclick="showMessage(2)">2</div>
+<div class="card" style="top: 220px;" onclick="showMessage(3)">3</div>
+<div class="card" style="top: 300px;" onclick="showMessage(4)">4</div>
+<div class="card" style="top: 380px;" onclick="showMessage(5)">5</div>
+
+<!-- Flip Image Frame -->
+<div class="image-container">
+  <div class="flip-card" id="flipCard">
+    <img class="front" id="imgFront" src="" />
+    <img class="back" id="imgBack" src="" />
+  </div>
+</div>
+
+<!-- Message Popup -->
+<div class="message-box" id="messageBox">
+  <h2 id="msgTitle"></h2>
+  <p id="msgContent"></p>
+  <button class="close-btn" onclick="closeMessage()">Close</button>
+</div>
+
+<!-- Love Text -->
+<div class="text-box">
+  <h1>🎂 Happy Birthday Shreya 💖</h1>
+  <p>You are the most beautiful girl in the world 🌸</p>
+</div>
+
+<!-- Floating Hearts -->
+<div class="hearts" id="hearts"></div>
+
+<!-- Background Audio -->
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_87657b8b4f.mp3?filename=happy-birthday-to-you-piano-version-11262.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  // Floating hearts
+  const heartsContainer = document.getElementById('hearts');
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+    heartsContainer.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+  setInterval(createHeart, 500);
+
+  // Messages
+  const messages = {
+    1: {
+      title: "Memory",
+      content: "Do you remember the first time we went out? That pasta moment was special — and funny too! 😅"
+    },
+    2: {
+      title: "First Fight",
+      content: "Our first fight showed how much I care. I was jealous and overprotective, but that’s because you mean everything to me. You’re the best partner, friend, and person I know. 💖"
+    },
+    3: {
+      title: "Long Call",
+      content: "Our first video call… I was nervous. But then came late-night calls, sleeping on video, and endless chats. Those are some of my favorite memories. 📱🌙"
+    },
+    4: {
+      title: "Loyalty",
+      content: "You always told me everything. Your honesty and loyalty are priceless. Thank you for trusting me with your heart and life. I’m all yours forever. ❤️"
+    },
+    5: {
+      title: "Meet Ups",
+      content: "Remember before we were official, when we first met? I was surprised someone as beautiful as you was with me. Now even Rajiv Nagar knows about us 😄"
+    }
+  };
+
+  function showMessage(num) {
+    document.getElementById("msgTitle").innerText = messages[num].title;
+    document.getElementById("msgContent").innerText = messages[num].content;
+    document.getElementById("messageBox").style.display = "block";
+  }
+
+  function closeMessage() {
+    document.getElementById("messageBox").style.display = "none";
+  }
+
+  // Image Flip
+  const images = [
+    "https://i.ibb.co/MDmCy89R/image1.jpg",
+    "https://i.ibb.co/vCVJ1rXc/image2.jpg",
+    "https://i.ibb.co/3Yzw6ftx/image3.jpg",
+    "https://i.ibb.co/HDj9Qjd4/image4.jpg",
+    "https://i.ibb.co/d4rB7Ktp/image5.jpg"
+  ];
+
+  let current = 0;
+  let front = document.getElementById('imgFront');
+  let back = document.getElementById('imgBack');
+  const card = document.getElementById('flipCard');
+
+  front.src = images[0];
+  back.src = images[1];
+
+  setInterval(() => {
+    card.style.transform = 'rotateY(180deg)';
+    setTimeout(() => {
+      current = (current + 1) % images.length;
+      const next = (current + 1) % images.length;
+
+      const temp = front;
+      front = back;
+      back = temp;
+
+      front.src = images[current];
+      back.src = images[next];
+
+      card.appendChild(front);
+      card.appendChild(back);
+      card.style.transform = 'rotateY(0deg)';
+    }, 1000);
+  }, 3000);
+</script>
+
+</body>
+</html>
